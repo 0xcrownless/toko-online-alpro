@@ -66,6 +66,57 @@ func tambahtransaksi() {
 	}
 }
 
+func approvetransaksi() {
+
+	var idtrx int
+	var i int
+	var j int
+	var ketemu bool
+
+	ketemu = false
+
+	fmt.Println("========== APPROVE TRANSAKSI ==========")
+
+	fmt.Print("Masukkan ID Transaksi : ")
+	fmt.Scan(&idtrx)
+
+	for i = 0; i < jumlahtransaksi; i++ {
+
+		if datatransaksi[i].idtransaksi == idtrx {
+
+			ketemu = true
+
+			if datatransaksi[i].status == "approved" {
+
+				fmt.Println("Transaksi sudah diapprove")
+
+			} else {
+
+				datatransaksi[i].status = "approved"
+
+				for j = 0; j < jumlahbarang; j++ {
+
+					if databarang[j].id == datatransaksi[i].idbarang {
+
+						databarang[j].stok =
+							databarang[j].stok - datatransaksi[i].jumlah
+
+						databarang[j].terjual =
+							databarang[j].terjual + datatransaksi[i].jumlah
+					}
+				}
+
+				fmt.Println("Transaksi berhasil diapprove")
+			}
+		}
+	}
+
+	if ketemu == false {
+
+		fmt.Println("Transaksi tidak ditemukan")
+	}
+}
+
 func tampiltransaksi() {
 
 	var i int
