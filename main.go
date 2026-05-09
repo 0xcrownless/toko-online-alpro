@@ -8,6 +8,7 @@ func main() {
 	var pilihan int
 
 	initadmin()
+	loadbarang()
 
 	role = login()
 
@@ -127,7 +128,7 @@ func menutoko() {
 		} else if pilihan == 11 {
 
 			topbarangterlaris()
-			
+
 		}  else if pilihan == 0 {
 
 			fmt.Println("Kembali")

@@ -1,6 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"bufio"
+	"strings"
+	"strconv"
+)
 
 const MAXBARANG = 100
 
@@ -43,6 +49,7 @@ func tambahbarang() {
 	jumlahbarang++
 
 	fmt.Println("Barang berhasil ditambahkan")
+	savebarang()
 }
 
 func tampilbarang() {
@@ -125,6 +132,7 @@ func editbarang() {
 				} else if pilihan == 0 {
 
 					fmt.Println("Edit selesai")
+					savebarang()
 					break
 
 				} else {
@@ -171,11 +179,77 @@ func hapusbarang() {
 			jumlahbarang--
 
 			fmt.Println("Barang berhasil dihapus")
+			savebarang()
 		}
 	}
 
 	if ketemu == false {
 
 		fmt.Println("Barang tidak ditemukan")
+	}
+}
+
+func savebarang() {
+
+	var file *os.File
+	var data string
+	var i int
+
+	file, _ = os.Create("barang.txt")
+
+	defer file.Close()
+
+	for i = 0; i < jumlahbarang; i++ {
+
+		data =
+			strconv.Itoa(databarang[i].id) + "|" +
+				databarang[i].nama + "|" +
+				databarang[i].kategori + "|" +
+				strconv.Itoa(databarang[i].harga) + "|" +
+				strconv.Itoa(databarang[i].stok) + "|" +
+				strconv.Itoa(databarang[i].terjual) + "\n"
+
+		file.WriteString(data)
+	}
+}
+
+func loadbarang() {
+
+	var file *os.File
+	var scanner *bufio.Scanner
+	var line string
+	var data []string
+	var barang barang
+
+	file, _ = os.Open("barang.txt")
+
+	defer file.Close()
+
+	scanner = bufio.NewScanner(file)
+
+	for scanner.Scan() {
+
+		line = scanner.Text()
+
+		data = strings.Split(line, "|")
+
+		barang.id, _ =
+			strconv.Atoi(data[0])
+
+		barang.nama = data[1]
+
+		barang.kategori = data[2]
+
+		barang.harga, _ =
+			strconv.Atoi(data[3])
+
+		barang.stok, _ =
+			strconv.Atoi(data[4])
+
+		barang.terjual, _ =
+			strconv.Atoi(data[5])
+
+		databarang[jumlahbarang] = barang
+		jumlahbarang++
 	}
 }
