@@ -30,10 +30,10 @@ func login() string {
 	fmt.Print("usn: ")
 	fmt.Scan(&usn)
 	fmt.Print("password : ")
-	fmt.Scan(&password)
+	fmt.Scan(&pw)
 
-	for i = 0; i < jumlahadmin i++ {
-		if username == dataadmin{i}.usn && pw == dataadmin[i].pw {
+	for i = 0; i < jumlahadmin; i++ {
+		if username == dataadmin[i].usn && pw == dataadmin[i].pw {
 			role = dataadmin[i].role 
 		}
 	}

@@ -11,7 +11,7 @@ type barang struct {
 	terjual int 
 }
 
-var databrang [MAXBARANG]barang
+var databarang [MAXBARANG]barang
 var jumlahbarang int 
 
 func tambahbarang() {
@@ -19,7 +19,7 @@ func tambahbarang() {
 
 	fmt.Println("======== SILAHKAN TAMBAH BARANG ===========")
 	fmt.Print("id barang  ; ")
-	fmt.Scam(&barang.id)
+	fmt.Scan(&barang.id)
 	fmt.Print("nama barang : ")
 	fmt.Scan(&barang.nama)
 	fmt.Print("kategori ; ")
@@ -41,11 +41,11 @@ func tampilbarang() {
 	var i int 
 	fmt.Println("=========== data barang ========")
 	
-	if jumlah barang == 0 {
+	if jumlahbarang == 0 {
 		fmt.Println("data barang kosong ")
 
 	}else {
-		for i 0; i < jumlahbarang; i++ {
+		for i = 0; i < jumlahbarang; i++ {
 
 			fmt.Println("")
 			fmt.Println("id : ", databarang[i].id)
