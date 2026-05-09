@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-const MAXTRANSAKSI = 100
+const MAXTRANSAKSI = 999
 
 type transaksi struct {
 	idtransaksi int
