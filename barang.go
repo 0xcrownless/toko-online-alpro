@@ -74,6 +74,7 @@ func editbarang() {
 
 	var id int
 	var i int
+	var pilihan int
 	var ketemu bool
 
 	ketemu = false
@@ -89,19 +90,50 @@ func editbarang() {
 
 			ketemu = true
 
-			fmt.Print("Nama Baru : ")
-			fmt.Scan(&databarang[i].nama)
+			for {
 
-			fmt.Print("Kategori Baru : ")
-			fmt.Scan(&databarang[i].kategori)
+				fmt.Println("===== PILIH DATA YANG DIUBAH =====")
+				fmt.Println("1. Nama")
+				fmt.Println("2. Kategori")
+				fmt.Println("3. Harga")
+				fmt.Println("4. Stok")
+				fmt.Println("0. Selesai")
 
-			fmt.Print("Harga Baru : ")
-			fmt.Scan(&databarang[i].harga)
+				fmt.Print("Pilih : ")
+				fmt.Scan(&pilihan)
 
-			fmt.Print("Stok Baru : ")
-			fmt.Scan(&databarang[i].stok)
+				if pilihan == 1 {
 
-			fmt.Println("Data berhasil diubah")
+					fmt.Print("Nama Baru : ")
+					fmt.Scan(&databarang[i].nama)
+
+				} else if pilihan == 2 {
+
+					fmt.Print("Kategori Baru : ")
+					fmt.Scan(&databarang[i].kategori)
+
+				} else if pilihan == 3 {
+
+					fmt.Print("Harga Baru : ")
+					fmt.Scan(&databarang[i].harga)
+
+				} else if pilihan == 4 {
+
+					fmt.Print("Stok Baru : ")
+					fmt.Scan(&databarang[i].stok)
+
+				} else if pilihan == 0 {
+
+					fmt.Println("Edit selesai")
+					break
+
+				} else {
+
+					fmt.Println("Menu tidak tersedia")
+				}
+
+				fmt.Println()
+			}
 		}
 	}
 
