@@ -1,16 +1,20 @@
-package main 
+package main
+
 import "fmt"
+
 const MAXADMIN = 50
+
 type admin struct {
-	usn string 
-	pw string 
+	usn  string
+	pw   string
 	role string
 }
 
 var dataadmin [MAXADMIN]admin
-var jumlahadmin int 
+var jumlahadmin int
 
 func initadmin() {
+
 	dataadmin[0].usn = "reval"
 	dataadmin[0].pw = "123"
 	dataadmin[0].role = "superadmin"
@@ -19,40 +23,53 @@ func initadmin() {
 }
 
 func login() string {
+
 	var usn string
 	var pw string
 	var role string
-	var i int 
+	var i int
 
 	role = ""
 
-	fmt.Println("========== login ==========")
-	fmt.Print("usn: ")
+	fmt.Println("========== LOGIN ==========")
+
+	fmt.Print("Username : ")
 	fmt.Scan(&usn)
-	fmt.Print("password : ")
+
+	fmt.Print("Password : ")
 	fmt.Scan(&pw)
 
 	for i = 0; i < jumlahadmin; i++ {
-		if usn == dataadmin[i].usn && pw == dataadmin[i].pw {
-			role = dataadmin[i].role 
+
+		if usn == dataadmin[i].usn &&
+			pw == dataadmin[i].pw {
+
+			role = dataadmin[i].role
 		}
 	}
+
 	if role == "" {
-	fmt.Println("login gagal")
+
+		fmt.Println("Login gagal")
+
 	} else {
-		fmt.Println("login berhasil")
+
+		fmt.Println("Login berhasil")
 	}
-	return role 
+
+	return role
 }
 
 func tambahadmin() {
-	var admin admin 
 
-	fmt.Println("========== Tambah admin ==========")
+	var admin admin
 
-	fmt.Print("username: ")
+	fmt.Println("========== TAMBAH ADMIN ==========")
+
+	fmt.Print("Username : ")
 	fmt.Scan(&admin.usn)
-	fmt.Print("password: ")
+
+	fmt.Print("Password : ")
 	fmt.Scan(&admin.pw)
 
 	admin.role = "admin"
@@ -60,16 +77,19 @@ func tambahadmin() {
 	dataadmin[jumlahadmin] = admin
 	jumlahadmin++
 
-	fmt.Println("admin berhasil ditambakan")
+	fmt.Println("Admin berhasil ditambahkan")
 }
 
 func tampiladmin() {
-	var i int 
+
+	var i int
+
 	fmt.Println("========== DATA ADMIN ==========")
+
 	for i = 0; i < jumlahadmin; i++ {
-		
-		fmt.Println("username:", dataadmin[i].usn)
-		fmt.Println("role:", dataadmin[i].role)
-		fmt.Println("")
+
+		fmt.Println("Username :", dataadmin[i].usn)
+		fmt.Println("Role     :", dataadmin[i].role)
+		fmt.Println("----------------------")
 	}
 }

@@ -1,119 +1,149 @@
-package main 
+package main
+
 import "fmt"
 
-const MAXBARANG = 999
+const MAXBARANG = 100
+
 type barang struct {
-	id int
-	nama string
-	kategori string
-	harga int
-	stok int 
-	terjual int 
+	id        int
+	nama      string
+	kategori  string
+	harga     int
+	stok      int
+	terjual   int
 }
 
 var databarang [MAXBARANG]barang
-var jumlahbarang int 
+var jumlahbarang int
 
 func tambahbarang() {
-	var barang barang 
 
-	fmt.Println("======== SILAHKAN TAMBAH BARANG ===========")
-	fmt.Print("id barang  ; ")
+	var barang barang
+
+	fmt.Println("========== TAMBAH BARANG ==========")
+
+	fmt.Print("ID Barang : ")
 	fmt.Scan(&barang.id)
-	fmt.Print("nama barang : ")
+
+	fmt.Print("Nama Barang : ")
 	fmt.Scan(&barang.nama)
-	fmt.Print("kategori ; ")
+
+	fmt.Print("Kategori : ")
 	fmt.Scan(&barang.kategori)
-	fmt.Print("harga : ")
+
+	fmt.Print("Harga : ")
 	fmt.Scan(&barang.harga)
-	fmt.Print("stok : ")
+
+	fmt.Print("Stok : ")
 	fmt.Scan(&barang.stok)
 
 	barang.terjual = 0
-	
-	databarang[jumlahbarang] = barang 
+
+	databarang[jumlahbarang] = barang
 	jumlahbarang++
 
-	fmt.Println("barang berhasil ditambahkan")
+	fmt.Println("Barang berhasil ditambahkan")
 }
 
 func tampilbarang() {
-	var i int 
-	fmt.Println("=========== data barang ========")
-	
-	if jumlahbarang == 0 {
-		fmt.Println("data barang kosong ")
 
-	}else {
+	var i int
+
+	fmt.Println("========== DATA BARANG ==========")
+
+	if jumlahbarang == 0 {
+
+		fmt.Println("Data barang kosong")
+
+	} else {
+
 		for i = 0; i < jumlahbarang; i++ {
 
-			fmt.Println("")
-			fmt.Println("id : ", databarang[i].id)
-			fmt.Println("nama : ", databarang[i].nama)
-			fmt.Println("kategori : ", databarang[i].kategori)
-			fmt.Println("harga : ", databarang[i].harga)
-			fmt.Println("stok : ", databarang[i].stok)
-			fmt.Println("terjual: ", databarang[i].terjual)
-			fmt.Println("")
+			fmt.Println("ID        :", databarang[i].id)
+			fmt.Println("Nama      :", databarang[i].nama)
+			fmt.Println("Kategori  :", databarang[i].kategori)
+			fmt.Println("Harga     :", databarang[i].harga)
+			fmt.Println("Stok      :", databarang[i].stok)
+			fmt.Println("Terjual   :", databarang[i].terjual)
+			fmt.Println("-----------------------------")
 		}
 	}
 }
 
 func editbarang() {
-	var id, i int 
-	var ketemu bool 
 
-	ketemu = false 
+	var id int
+	var i int
+	var ketemu bool
 
-	fmt.Println("========== edit barang ==========")
-	fmt.Print("masukan id barang : ")
+	ketemu = false
+
+	fmt.Println("========== EDIT BARANG ==========")
+
+	fmt.Print("Masukkan ID Barang : ")
 	fmt.Scan(&id)
 
 	for i = 0; i < jumlahbarang; i++ {
-		if databarang[i].id == id {
-			ketemu = true 
 
-			fmt.Print("nama baru : ")
+		if databarang[i].id == id {
+
+			ketemu = true
+
+			fmt.Print("Nama Baru : ")
 			fmt.Scan(&databarang[i].nama)
-			fmt.Print("kategori baru : ")
+
+			fmt.Print("Kategori Baru : ")
 			fmt.Scan(&databarang[i].kategori)
-			fmt.Print("harga baru : ")
+
+			fmt.Print("Harga Baru : ")
 			fmt.Scan(&databarang[i].harga)
-			fmt.Print("stok baru : ")
+
+			fmt.Print("Stok Baru : ")
 			fmt.Scan(&databarang[i].stok)
-			fmt.Println("data berhasil diubah")
+
+			fmt.Println("Data berhasil diubah")
 		}
 	}
 
 	if ketemu == false {
-		fmt.Println("barang tidak ditemukan")
+
+		fmt.Println("Barang tidak ditemukan")
 	}
 }
 
-func hapusbarang(){
-	var id, i, j int 
-	var ketemu bool 
+func hapusbarang() {
 
-	ketemu = false 
+	var id int
+	var i int
+	var j int
+	var ketemu bool
 
-	fmt.Println("======= hapus barang =======")
-	fmt.Print("masukan id barang : ")
+	ketemu = false
+
+	fmt.Println("========== HAPUS BARANG ==========")
+
+	fmt.Print("Masukkan ID Barang : ")
 	fmt.Scan(&id)
 
 	for i = 0; i < jumlahbarang; i++ {
+
 		if databarang[i].id == id {
+
 			ketemu = true
 
 			for j = i; j < jumlahbarang-1; j++ {
+
 				databarang[j] = databarang[j+1]
 			}
+
 			jumlahbarang--
-			fmt.Println("barang barhasil dihapus")
+
+			fmt.Println("Barang berhasil dihapus")
 		}
 	}
 
 	if ketemu == false {
-		fmt.Println("barang tidak ditemukan")
-	}
 
+		fmt.Println("Barang tidak ditemukan")
+	}
 }
