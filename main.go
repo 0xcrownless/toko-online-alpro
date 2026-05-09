@@ -9,6 +9,7 @@ func main() {
 
 	initadmin()
 	loadbarang()
+	loadtransaksi()
 
 	role = login()
 

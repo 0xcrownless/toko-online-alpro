@@ -1,6 +1,12 @@
 package main
 
-import "fmt"
+import import (
+	"fmt"
+	"os"
+	"bufio"
+	"strings"
+	"strconv"
+)
 
 const MAXTRANSAKSI = 999
 
@@ -59,6 +65,7 @@ func tambahtransaksi() {
 		fmt.Println("Transaksi berhasil ditambahkan")
 		fmt.Println("Status :", trx.status)
 		fmt.Println("Total :", trx.total)
+		savetransaksi()
 
 	} else {
 
@@ -107,6 +114,8 @@ func approvetransaksi() {
 				}
 
 				fmt.Println("Transaksi berhasil diapprove")
+				savetransaksi()
+				savebarang()
 			}
 		}
 	}
@@ -132,5 +141,73 @@ func tampiltransaksi() {
 		fmt.Println("Total         :", datatransaksi[i].total)
 		fmt.Println("Status        :", datatransaksi[i].status)
 		fmt.Println("-------------------------------")
+	}
+}
+
+func savetransaksi() {
+
+	var file *os.File
+	var data string
+	var i int
+
+	file, _ = os.Create("transaksi.txt")
+
+	defer file.Close()
+
+	for i = 0; i < jumlahtransaksi; i++ {
+
+		data =
+			strconv.Itoa(datatransaksi[i].idtransaksi) + "|" +
+				datatransaksi[i].pembeli + "|" +
+				strconv.Itoa(datatransaksi[i].idbarang) + "|" +
+				datatransaksi[i].namabarang + "|" +
+				strconv.Itoa(datatransaksi[i].jumlah) + "|" +
+				strconv.Itoa(datatransaksi[i].total) + "|" +
+				datatransaksi[i].status + "\n"
+
+		file.WriteString(data)
+	}
+}
+
+func loadtransaksi() {
+
+	var file *os.File
+	var scanner *bufio.Scanner
+	var line string
+	var data []string
+	var trx transaksi
+
+	file, _ = os.Open("transaksi.txt")
+
+	defer file.Close()
+
+	scanner = bufio.NewScanner(file)
+
+	for scanner.Scan() {
+
+		line = scanner.Text()
+
+		data = strings.Split(line, "|")
+
+		trx.idtransaksi, _ =
+			strconv.Atoi(data[0])
+
+		trx.pembeli = data[1]
+
+		trx.idbarang, _ =
+			strconv.Atoi(data[2])
+
+		trx.namabarang = data[3]
+
+		trx.jumlah, _ =
+			strconv.Atoi(data[4])
+
+		trx.total, _ =
+			strconv.Atoi(data[5])
+
+		trx.status = data[6]
+
+		datatransaksi[jumlahtransaksi] = trx
+		jumlahtransaksi++
 	}
 }
