@@ -42,5 +42,26 @@ func menutoko() {
 	for pilihan != 0 {
 		fmt.Println("========== TOko ONLINE ==========")
 		fmt.Println("1. tambah")
+		fmt.Println("2. tampilkan barang ")
+		fmt.Println("3. edit barang ")
+		fmt.Println("4. hapus barang")
+		fmt.Println("keluar")
+		fmt.Print("pilih menu :")
+		fmt.Scan(&pilihan)
+
+		if pilihan == 1 {
+			tambahbarang()
+		} else if pilihan == 2 {
+			tampilbarang()
+		} else if pilihan == 3 {
+			editbarang()
+		} else if pilihan == 4 {
+			hapusbarang()
+		} else if pilihan == 0 {
+			fmt.Println("kembali")
+		} else {
+			fmt.Println("menu tidak ada")
+		}
+		fmt.Println()
 	}
 }
