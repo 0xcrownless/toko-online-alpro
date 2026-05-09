@@ -15,7 +15,7 @@ func main() {
 
 	if role == "superadmin" {
 
-		for pilihan != 0 {
+		for {
 
 			fmt.Println("===== SUPER ADMIN AKSES =====")
 			fmt.Println("1. Tambah Admin")
@@ -41,6 +41,7 @@ func main() {
 			} else if pilihan == 0 {
 
 				fmt.Println("Program selesai")
+				break
 
 			} else {
 
@@ -64,7 +65,7 @@ func menutoko() {
 
 	var pilihan int
 
-	for pilihan != 0 {
+	for {
 
 		fmt.Println("========== TOKO ONLINE ==========")
 		fmt.Println("1. Tambah Barang")
@@ -95,6 +96,7 @@ func menutoko() {
 		} else if pilihan == 0 {
 
 			fmt.Println("Kembali")
+			break
 
 		} else {
 
