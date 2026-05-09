@@ -31,7 +31,7 @@ func main (){
 			}
 			fmt.Println()
 		}
-	} else if role == admin {
+	} else if role == "admin" {
 		menutoko()
 	}
 }
@@ -45,7 +45,7 @@ func menutoko() {
 		fmt.Println("2. tampilkan barang ")
 		fmt.Println("3. edit barang ")
 		fmt.Println("4. hapus barang")
-		fmt.Println("keluar")
+		fmt.Println("0. keluar")
 		fmt.Print("pilih menu :")
 		fmt.Scan(&pilihan)
 

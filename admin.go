@@ -33,7 +33,7 @@ func login() string {
 	fmt.Scan(&pw)
 
 	for i = 0; i < jumlahadmin; i++ {
-		if username == dataadmin[i].usn && pw == dataadmin[i].pw {
+		if usn == dataadmin[i].usn && pw == dataadmin[i].pw {
 			role = dataadmin[i].role 
 		}
 	}
