@@ -106,7 +106,19 @@ func menutoko() {
 			
 			menusorting()
 
-		} else if pilihan == 0 {
+		} else if pilihan == 7 {
+
+			tambahtransaksi()
+
+		} else if pilihan == 8 {
+
+			tampiltransaksi()
+
+		} else if pilihan == 9 {
+
+			approvetransaksi()
+			
+		}  else if pilihan == 0 {
 
 			fmt.Println("Kembali")
 			break
