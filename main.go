@@ -11,6 +11,8 @@ func main() {
 
 	role = login()
 
+	fmt.Println("Role :", role)
+
 	if role == "superadmin" {
 
 		for pilihan != 0 {
@@ -51,6 +53,10 @@ func main() {
 	} else if role == "admin" {
 
 		menutoko()
+
+	} else {
+
+		fmt.Println("Role tidak dikenali")
 	}
 }
 
