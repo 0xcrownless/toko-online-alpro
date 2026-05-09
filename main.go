@@ -73,6 +73,7 @@ func menutoko() {
 		fmt.Println("3. Edit Barang")
 		fmt.Println("4. Hapus Barang")
 		fmt.Println("5. Cari Barang")
+		fmt.Println("6. sorting barang")
 		fmt.Println("0. Keluar")
 
 		fmt.Print("Pilih menu : ")
@@ -98,6 +99,10 @@ func menutoko() {
 
 			caribarang()
 
+		} else if pilihan == 6 {
+			
+			menusorting()
+			
 		} else if pilihan == 0 {
 
 			fmt.Println("Kembali")
