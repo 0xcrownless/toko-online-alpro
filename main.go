@@ -77,6 +77,8 @@ func menutoko() {
 		fmt.Println("7. Tambah Transaksi")
 		fmt.Println("8. Tampilkan Transaksi")
 		fmt.Println("9. Approve Transaksi")
+		fmt.Println("10. Laporan Penjualan")
+		fmt.Println("11. Top Barang Terlaris")
 		fmt.Println("0. Keluar")
 
 		fmt.Print("Pilih menu : ")
@@ -117,6 +119,14 @@ func menutoko() {
 		} else if pilihan == 9 {
 
 			approvetransaksi()
+
+		} else if pilihan == 10 {
+
+			laporanpenjualan()
+
+		} else if pilihan == 11 {
+
+			topbarangterlaris()
 			
 		}  else if pilihan == 0 {
 
