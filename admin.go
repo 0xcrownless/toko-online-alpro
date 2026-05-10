@@ -148,3 +148,42 @@ func loadadmin() {
 		jumlahadmin++
 	}
 }
+
+func hapusadmin() {
+
+	var usn string
+	var i int
+	var j int
+	var ketemu bool
+
+	ketemu = false
+
+	fmt.Println("========== HAPUS ADMIN ==========")
+
+	fmt.Print("Masukkan username admin : ")
+	fmt.Scan(&usn)
+
+	for i = 0; i < jumlahadmin; i++ {
+
+		if dataadmin[i].usn == usn {
+
+			ketemu = true
+
+			for j = i; j < jumlahadmin-1; j++ {
+
+				dataadmin[j] = dataadmin[j+1]
+			}
+
+			jumlahadmin--
+
+			fmt.Println("Admin berhasil dihapus")
+
+			saveadmin()
+		}
+	}
+
+	if ketemu == false {
+
+		fmt.Println("Admin tidak ditemukan")
+	}
+}

@@ -23,7 +23,8 @@ func main() {
 			fmt.Println("===== SUPER ADMIN AKSES =====")
 			fmt.Println("1. Tambah Admin")
 			fmt.Println("2. Lihat Admin")
-			fmt.Println("3. Masuk Sistem Toko")
+			fmt.Println("3. Hapus Admin")
+			fmt.Println("4. Masuk Sistem Toko")
 			fmt.Println("0. Keluar")
 
 			fmt.Print("Pilih menu : ")
@@ -40,8 +41,12 @@ func main() {
 
 			} else if pilihan == 3 {
 
-				menutoko()
+				hapusadmin()
 
+			} else if pilihan == 4 {
+
+				menutoko()
+				
 			} else if pilihan == 0 {
 
 				fmt.Println("Program selesai")
@@ -136,7 +141,7 @@ func menutoko() {
 		} else if pilihan == 12 {
 
 			exportexcel()
-			
+
 		} else if pilihan == 0 {
 
 			fmt.Println("Kembali")
