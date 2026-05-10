@@ -23,6 +23,7 @@ type transaksi struct {
 var datatransaksi [MAXTRANSAKSI]transaksi
 var jumlahtransaksi int
 
+
 func tambahtransaksi() {
 
 	var trx transaksi
@@ -51,13 +52,23 @@ func tambahtransaksi() {
 
 			ketemu = true
 
-			trx.namabarang = databarang[i].nama
-			trx.total = trx.jumlah * databarang[i].harga
-			trx.status = "pending"
+			if trx.jumlah > databarang[i].stok {
+
+				fmt.Println("Stok tidak cukup")
+
+			} else {
+
+				trx.namabarang = databarang[i].nama
+
+				trx.total =
+					trx.jumlah * databarang[i].harga
+
+				trx.status = "pending"
+			}
 		}
 	}
 
-	if ketemu == true {
+	if ketemu == true && trx.status == "pending" {
 
 		datatransaksi[jumlahtransaksi] = trx
 		jumlahtransaksi++
@@ -65,9 +76,10 @@ func tambahtransaksi() {
 		fmt.Println("Transaksi berhasil ditambahkan")
 		fmt.Println("Status :", trx.status)
 		fmt.Println("Total :", trx.total)
+
 		savetransaksi()
 
-	} else {
+	} else if ketemu == false {
 
 		fmt.Println("Barang tidak ditemukan")
 	}
