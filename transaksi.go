@@ -34,8 +34,7 @@ func tambahtransaksi() {
 
 	fmt.Println("========== TRANSAKSI PEMBELIAN ==========")
 
-	fmt.Print("ID Transaksi : ")
-	fmt.Scan(&trx.idtransaksi)
+	trx.idtransaksi = jumlahtransaksi + 1
 
 	fmt.Print("Nama Pembeli : ")
 	fmt.Scan(&trx.pembeli)
@@ -221,5 +220,44 @@ func loadtransaksi() {
 
 		datatransaksi[jumlahtransaksi] = trx
 		jumlahtransaksi++
+	}
+}
+
+func hapustransaksi() {
+
+	var id int
+	var i int
+	var j int
+	var ketemu bool
+
+	ketemu = false
+
+	fmt.Println("========== HAPUS TRANSAKSI ==========")
+
+	fmt.Print("Masukkan ID transaksi : ")
+	fmt.Scan(&id)
+
+	for i = 0; i < jumlahtransaksi; i++ {
+
+		if datatransaksi[i].idtransaksi == id {
+
+			ketemu = true
+
+			for j = i; j < jumlahtransaksi-1; j++ {
+
+				datatransaksi[j] = datatransaksi[j+1]
+			}
+
+			jumlahtransaksi--
+
+			savetransaksi()
+
+			fmt.Println("Transaksi berhasil dihapus")
+		}
+	}
+
+	if ketemu == false {
+
+		fmt.Println("Transaksi tidak ditemukan")
 	}
 }
