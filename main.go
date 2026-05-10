@@ -7,6 +7,7 @@ func main() {
 	var role string
 	var pilihan int
 
+	initadmin()
 	loadadmin()
 	loadbarang()
 	loadtransaksi()
@@ -31,6 +32,7 @@ func main() {
 			if pilihan == 1 {
 
 				tambahadmin()
+				saveadmin()
 
 			} else if pilihan == 2 {
 
@@ -75,7 +77,7 @@ func menutoko() {
 		fmt.Println("3. Edit Barang")
 		fmt.Println("4. Hapus Barang")
 		fmt.Println("5. Cari Barang")
-		fmt.Println("6. sorting barang")
+		fmt.Println("6. Sorting Barang")
 		fmt.Println("7. Tambah Transaksi")
 		fmt.Println("8. Tampilkan Transaksi")
 		fmt.Println("9. Approve Transaksi")
@@ -107,7 +109,7 @@ func menutoko() {
 			caribarang()
 
 		} else if pilihan == 6 {
-			
+
 			menusorting()
 
 		} else if pilihan == 7 {
@@ -130,7 +132,7 @@ func menutoko() {
 
 			topbarangterlaris()
 
-		}  else if pilihan == 0 {
+		} else if pilihan == 0 {
 
 			fmt.Println("Kembali")
 			break
