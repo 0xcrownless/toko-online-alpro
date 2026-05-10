@@ -7,7 +7,7 @@ func main() {
 	var role string
 	var pilihan int
 
-	initadmin()
+	loadadmin()
 	loadbarang()
 	loadtransaksi()
 

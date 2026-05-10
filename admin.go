@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"bufio"
+	"strings"
+)
 
 const MAXADMIN = 50
 
@@ -91,5 +96,55 @@ func tampiladmin() {
 		fmt.Println("Username :", dataadmin[i].usn)
 		fmt.Println("Role     :", dataadmin[i].role)
 		fmt.Println("----------------------")
+	}
+}
+
+func saveadmin() {
+
+	var file *os.File
+	var data string
+	var i int
+
+	file, _ = os.Create("admin.txt")
+
+	defer file.Close()
+
+	for i = 0; i < jumlahadmin; i++ {
+
+		data =
+			dataadmin[i].usn + "|" +
+				dataadmin[i].pw + "|" +
+				dataadmin[i].role + "\n"
+
+		file.WriteString(data)
+	}
+}
+
+func loadadmin() {
+
+	var file *os.File
+	var scanner *bufio.Scanner
+	var line string
+	var data []string
+	var admin admin
+
+	file, _ = os.Open("admin.txt")
+
+	defer file.Close()
+
+	scanner = bufio.NewScanner(file)
+
+	for scanner.Scan() {
+
+		line = scanner.Text()
+
+		data = strings.Split(line, "|")
+
+		admin.usn = data[0]
+		admin.pw = data[1]
+		admin.role = data[2]
+
+		dataadmin[jumlahadmin] = admin
+		jumlahadmin++
 	}
 }
