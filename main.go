@@ -7,7 +7,7 @@ func main() {
 	var role string
 	var pilihan int
 
-	initadmin()
+	
 	loadadmin()
 	loadbarang()
 	loadtransaksi()
@@ -86,12 +86,13 @@ func menutoko(role string) {
 		fmt.Println("7. Tambah Transaksi")
 		fmt.Println("8. Tampilkan Transaksi")
 		fmt.Println("9. Approve Transaksi")
+		fmt.Println("10. hapus transaksi")
 
 		if role == "superadmin" {
 
-			fmt.Println("10. Laporan Penjualan")
-			fmt.Println("11. Top Barang Terlaris")
-			fmt.Println("12. Export Excel")
+			fmt.Println("11. Laporan Penjualan")
+			fmt.Println("12. Top Barang Terlaris")
+			fmt.Println("13. Export Excel")
 		}
 
 		fmt.Println("0. Keluar")
@@ -138,7 +139,7 @@ func menutoko(role string) {
 		} else if pilihan == 10 {
 
 			hapustransaksi()
-			
+
 		} else if pilihan == 11 &&
 			role == "superadmin" {
 

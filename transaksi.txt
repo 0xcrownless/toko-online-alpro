@@ -1,2 +1,0 @@
-1|reval|1|btc|3|3000000|approved
-1|jocelyn|1|btc|1|1000000|pending

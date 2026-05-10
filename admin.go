@@ -18,14 +18,7 @@ type admin struct {
 var dataadmin [MAXADMIN]admin
 var jumlahadmin int
 
-func initadmin() {
 
-	dataadmin[0].usn = "reval"
-	dataadmin[0].pw = "123"
-	dataadmin[0].role = "superadmin"
-
-	jumlahadmin = 1
-}
 
 func login() string {
 

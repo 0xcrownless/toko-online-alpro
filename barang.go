@@ -28,9 +28,8 @@ func tambahbarang() {
 
 	fmt.Println("========== TAMBAH BARANG ==========")
 
-	fmt.Print("ID Barang : ")
-	fmt.Scan(&barang.id)
-
+	barang.id = jumlahbarang + 1
+	
 	fmt.Print("Nama Barang : ")
 	fmt.Scan(&barang.nama)
 

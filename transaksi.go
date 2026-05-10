@@ -23,62 +23,66 @@ type transaksi struct {
 var datatransaksi [MAXTRANSAKSI]transaksi
 var jumlahtransaksi int
 
-
 func tambahtransaksi() {
 
 	var trx transaksi
+	var namabarang string
 	var i int
 	var ketemu bool
 
 	ketemu = false
 
-	fmt.Println("========== TRANSAKSI PEMBELIAN ==========")
+	if jumlahtransaksi == 0 {
 
-	trx.idtransaksi = jumlahtransaksi + 1
+		trx.idtransaksi = 1
+
+	} else {
+
+		trx.idtransaksi =
+			datatransaksi[jumlahtransaksi-1].idtransaksi + 1
+	}
+
+	fmt.Println("========== TRANSAKSI PEMBELIAN ==========")
 
 	fmt.Print("Nama Pembeli : ")
 	fmt.Scan(&trx.pembeli)
 
-	fmt.Print("ID Barang : ")
-	fmt.Scan(&trx.idbarang)
+	fmt.Print("Nama Barang : ")
+	fmt.Scan(&namabarang)
 
 	fmt.Print("Jumlah Beli : ")
 	fmt.Scan(&trx.jumlah)
 
 	for i = 0; i < jumlahbarang; i++ {
 
-		if databarang[i].id == trx.idbarang {
+		if databarang[i].nama == namabarang {
 
 			ketemu = true
 
 			if trx.jumlah > databarang[i].stok {
 
 				fmt.Println("Stok tidak cukup")
-
-			} else {
-
-				trx.namabarang = databarang[i].nama
-
-				trx.total =
-					trx.jumlah * databarang[i].harga
-
-				trx.status = "pending"
+				return
 			}
+
+			trx.idbarang = databarang[i].id
+			trx.namabarang = databarang[i].nama
+
+			trx.total =
+				trx.jumlah * databarang[i].harga
+
+			trx.status = "pending"
+
+			datatransaksi[jumlahtransaksi] = trx
+			jumlahtransaksi++
+
+			savetransaksi()
+
+			fmt.Println("Transaksi berhasil ditambahkan")
 		}
 	}
 
-	if ketemu == true && trx.status == "pending" {
-
-		datatransaksi[jumlahtransaksi] = trx
-		jumlahtransaksi++
-
-		fmt.Println("Transaksi berhasil ditambahkan")
-		fmt.Println("Status :", trx.status)
-		fmt.Println("Total :", trx.total)
-
-		savetransaksi()
-
-	} else if ketemu == false {
+	if ketemu == false {
 
 		fmt.Println("Barang tidak ditemukan")
 	}
