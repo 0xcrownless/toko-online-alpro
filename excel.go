@@ -11,5 +11,7 @@ func exportexcel() {
 
 	file = excelize.NewFile()
 
+	file.SaveAs("laporan.xlsx")
+
 	fmt.Println("Excel berhasil dibuat")
 }
