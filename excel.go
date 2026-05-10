@@ -36,7 +36,7 @@ func exportexcel() {
 	}
 
 	file.AddChart(sheet, "D2", &excelize.Chart{
-		Type: "col",
+	Type: excelize.Col,
 		Series: []excelize.ChartSeries{
 			{
 				Name:       "Penjualan",
