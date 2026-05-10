@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-const MAXBARANG = 100
+const MAXBARANG = 999
 
 type barang struct {
 	id        int
@@ -171,7 +171,7 @@ func hapusbarang() {
 
 			ketemu = true
 
-			for j = i; j < jumlahbarang-1; j++ {
+			for j = i; j < jumlahbarang-1; j++ {    
 
 				databarang[j] = databarang[j+1]
 			}
