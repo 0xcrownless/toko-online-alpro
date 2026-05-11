@@ -123,7 +123,7 @@ func menutoko(role string) {
 
 			fmt.Println("11. Top Barang Terlaris")
 			fmt.Println("12. Export Excel")
-			fmt.Println("13. dashboard toko")
+			fmt.Println("13. statistik  toko")
 			fmt.Println("14. tarik saldo  ")
 		}
 
