@@ -4,69 +4,96 @@ import "fmt"
 
 func main() {
 
-	var role string
 	var pilihan int
+	var role string
 
-	
 	loadadmin()
 	loadbarang()
 	loadtransaksi()
 
-	role = login()
+	for {
 
-	fmt.Println("Role :", role)
+		fmt.Println("========== TOKO ONLINE ==========")
+		fmt.Println("1. Login Admin")
+		fmt.Println("2. Belanja")
+		fmt.Println("0. Keluar")
 
-	if role == "superadmin" {
+		fmt.Print("Pilih menu : ")
+		fmt.Scan(&pilihan)
 
-		for {
+		if pilihan == 1 {
 
-			fmt.Println("===== SUPER ADMIN AKSES =====")
-			fmt.Println("1. Tambah Admin")
-			fmt.Println("2. Lihat Admin")
-			fmt.Println("3. Hapus Admin")
-			fmt.Println("4. Masuk Sistem Toko")
-			fmt.Println("0. Keluar")
+			role = login()
 
-			fmt.Print("Pilih menu : ")
-			fmt.Scan(&pilihan)
+			fmt.Println("Role :", role)
 
-			if pilihan == 1 {
+			if role == "superadmin" {
 
-				tambahadmin()
-				saveadmin()
+				for {
 
-			} else if pilihan == 2 {
+					fmt.Println("===== SUPER ADMIN AKSES =====")
+					fmt.Println("1. Tambah Admin")
+					fmt.Println("2. Lihat Admin")
+					fmt.Println("3. hapus admin")
+					fmt.Println("4. Masuk Sistem Toko")
+					fmt.Println("0. Keluar")
 
-				tampiladmin()
+					fmt.Print("Pilih menu : ")
+					fmt.Scan(&pilihan)
 
-			} else if pilihan == 3 {
+					if pilihan == 1 {
 
-				hapusadmin()
+						tambahadmin()
 
-			} else if pilihan == 4 {
+					} else if pilihan == 2 {
+
+						tampiladmin()
+
+					} else if pilihan == 3 {
+
+						hapusadmin()
+
+
+					} else if pilihan == 4 {
+
+						menutoko(role)
+
+					} else if pilihan == 0 {
+
+						break
+
+					} else {
+
+						fmt.Println("Menu tidak tersedia")
+					}
+
+					fmt.Println()
+				}
+
+			} else if role == "admin" {
 
 				menutoko(role)
 
-			} else if pilihan == 0 {
-
-				fmt.Println("Program selesai")
-				break
-
 			} else {
 
-				fmt.Println("Menu tidak tersedia")
+				fmt.Println("Login gagal")
 			}
 
-			fmt.Println()
+		} else if pilihan == 2 {
+
+			menuuser()
+
+		} else if pilihan == 0 {
+
+			fmt.Println("Program selesai")
+			break
+
+		} else {
+
+			fmt.Println("Menu tidak tersedia")
 		}
 
-	} else if role == "admin" {
-
-		menutoko(role)
-
-	} else {
-
-		fmt.Println("Role tidak dikenali")
+		fmt.Println()
 	}
 }
 
