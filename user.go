@@ -12,6 +12,8 @@ func menuuser() {
 		fmt.Println("1. Lihat Barang")
 		fmt.Println("2. Cari Barang")
 		fmt.Println("3. Beli Barang")
+		fmt.Println("4. Tambah ke Keranjang")
+		fmt.Println("5. Lihat Keranjang")
 		fmt.Println("0. Keluar")
 
 		fmt.Print("Pilih menu : ")
@@ -29,6 +31,14 @@ func menuuser() {
 
 			tambahtransaksi()
 
+		} else if pilihan == 4 {
+
+			tambahkeranjang()
+
+		} else if pilihan == 5 {
+
+			tampilkeranjang()
+			
 		} else if pilihan == 0 {
 
 			fmt.Println("Keluar dari menu pembeli")

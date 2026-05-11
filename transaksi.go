@@ -30,7 +30,7 @@ func tambahtransaksi() {
 	var namabarang string
 	var i int
 	var ketemu bool
-	var pilihbayar int 
+	var pilihanbayar int 
 
 	ketemu = false
 
