@@ -1,9 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
-	"bufio"
 	"strings"
 )
 
@@ -17,8 +17,7 @@ type admin struct {
 
 var dataadmin [MAXADMIN]admin
 var jumlahadmin int
-
-
+var adminlogin string
 
 func login() string {
 
@@ -43,6 +42,8 @@ func login() string {
 			pw == dataadmin[i].pw {
 
 			role = dataadmin[i].role
+
+			adminlogin = dataadmin[i].usn
 		}
 	}
 
@@ -60,20 +61,22 @@ func login() string {
 
 func tambahadmin() {
 
-	var admin admin
+	var adm admin
 
 	fmt.Println("========== TAMBAH ADMIN ==========")
 
 	fmt.Print("Username : ")
-	fmt.Scan(&admin.usn)
+	fmt.Scan(&adm.usn)
 
 	fmt.Print("Password : ")
-	fmt.Scan(&admin.pw)
+	fmt.Scan(&adm.pw)
 
-	admin.role = "admin"
+	adm.role = "admin"
 
-	dataadmin[jumlahadmin] = admin
+	dataadmin[jumlahadmin] = adm
 	jumlahadmin++
+
+	saveadmin()
 
 	fmt.Println("Admin berhasil ditambahkan")
 }
@@ -119,7 +122,7 @@ func loadadmin() {
 	var scanner *bufio.Scanner
 	var line string
 	var data []string
-	var admin admin
+	var adm admin
 
 	file, _ = os.Open("admin.txt")
 
@@ -133,11 +136,11 @@ func loadadmin() {
 
 		data = strings.Split(line, "|")
 
-		admin.usn = data[0]
-		admin.pw = data[1]
-		admin.role = data[2]
+		adm.usn = data[0]
+		adm.pw = data[1]
+		adm.role = data[2]
 
-		dataadmin[jumlahadmin] = admin
+		dataadmin[jumlahadmin] = adm
 		jumlahadmin++
 	}
 }

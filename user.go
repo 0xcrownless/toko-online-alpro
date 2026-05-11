@@ -2,9 +2,16 @@ package main
 
 import "fmt"
 
+var namapembeli string
+
 func menuuser() {
 
 	var pilihan int
+
+	suara("welcome, and happy shopping")
+
+	fmt.Print("nama pembeli : ")
+	fmt.Scan(&namapembeli)
 
 	for {
 

@@ -20,8 +20,7 @@ func tambahkeranjang() {
 
 	fmt.Println("========== TAMBAH KE KERANJANG ==========")
 
-	fmt.Print("Nama Pembeli : ")
-	fmt.Scan(&cart.namapembeli)
+	cart.namapembeli = namapembeli
 
 	fmt.Print("Nama Barang : ")
 	fmt.Scan(&cart.namabarang)
@@ -74,6 +73,7 @@ func checkoutkeranjang() {
 	var j int
 	var trx transaksi
 	var pilihanbayar int
+	var semuabarang string
 
 	if jumlahkeranjang == 0 {
 
@@ -94,6 +94,19 @@ func checkoutkeranjang() {
 	fmt.Print("Pilih pembayaran : ")
 	fmt.Scan(&pilihanbayar)
 
+	if jumlahtransaksi == 0 {
+
+		trx.idtransaksi = 1
+
+	} else {
+
+		trx.idtransaksi =
+			datatransaksi[jumlahtransaksi-1].idtransaksi + 1
+	}
+
+	trx.pembeli = namapembeli
+	trx.status = "pending"
+
 	for i = 0; i < jumlahkeranjang; i++ {
 
 		for j = 0; j < jumlahbarang; j++ {
@@ -101,72 +114,114 @@ func checkoutkeranjang() {
 			if datakeranjang[i].namabarang ==
 				databarang[j].nama {
 
-				if jumlahtransaksi == 0 {
+				if datakeranjang[i].jumlah >
+					databarang[j].stok {
+					
+					fmt.Println("-------------------------------------------")
+					fmt.Println("Stok", databarang[j].nama, "tidak cukup")
+					
+					fmt.Println("1. hapus dari kerangjang ")
+					fmt.Println("0. batal")
 
-					trx.idtransaksi = 1
+					var pilih int 
 
-				} else {
+					fmt.Print("pilih : ")
+					fmt.Scan(&pilih)
 
-					trx.idtransaksi =
-						datatransaksi[jumlahtransaksi-1].idtransaksi + 1
+					if pilih == 1 {
+
+						hapuskeranjang(datakeranjang[i].namabarang)
+					}
+					return
 				}
 
-				trx.pembeli =
-					datakeranjang[i].namapembeli
-
-				trx.idbarang =
-					databarang[j].id
-
-				trx.namabarang =
-					databarang[j].nama
-
-				trx.jumlah =
-					datakeranjang[i].jumlah
-
-				trx.total =
+				trx.total +=
 					datakeranjang[i].jumlah *
 						databarang[j].harga
 
-				trx.status = "pending"
+				semuabarang +=
+					databarang[j].nama +
+						" x" +
+						fmt.Sprint(datakeranjang[i].jumlah)
 
-				if pilihanbayar == 1 {
+				if i != jumlahkeranjang-1 {
 
-					trx.metodepembayaran = "Dana"
-
-				} else if pilihanbayar == 2 {
-
-					trx.metodepembayaran = "Ovo"
-
-				} else if pilihanbayar == 3 {
-
-					trx.metodepembayaran = "Gopay"
-
-				} else if pilihanbayar == 4 {
-
-					trx.metodepembayaran = "QRIS"
-
-				} else if pilihanbayar == 5 {
-
-					trx.metodepembayaran = "Bank BCA"
-
-				} else if pilihanbayar == 6 {
-
-					trx.metodepembayaran = "Bank BRI"
-
-				} else if pilihanbayar == 7 {
-
-					trx.metodepembayaran = "Bank Mandiri"
+					semuabarang += ", "
 				}
-
-				datatransaksi[jumlahtransaksi] = trx
-				jumlahtransaksi++
 			}
 		}
 	}
+
+	trx.namabarang = semuabarang
+
+	if pilihanbayar == 1 {
+
+		trx.metodepembayaran = "Dana"
+
+	} else if pilihanbayar == 2 {
+
+		trx.metodepembayaran = "Ovo"
+
+	} else if pilihanbayar == 3 {
+
+		trx.metodepembayaran = "Gopay"
+
+	} else if pilihanbayar == 4 {
+
+		trx.metodepembayaran = "QRIS"
+
+	} else if pilihanbayar == 5 {
+
+		trx.metodepembayaran = "Bank BCA"
+
+	} else if pilihanbayar == 6 {
+
+		trx.metodepembayaran = "Bank BRI"
+
+	} else if pilihanbayar == 7 {
+
+		trx.metodepembayaran = "Bank Mandiri"
+	}
+
+	datatransaksi[jumlahtransaksi] = trx
+	jumlahtransaksi++
 
 	savetransaksi()
 
 	jumlahkeranjang = 0
 
 	fmt.Println("Checkout berhasil")
+}
+
+func hapuskeranjang(namabarang string) {
+
+	var i int
+	var ketemu bool
+
+	ketemu = false
+
+	for i = 0; i < jumlahkeranjang; i++ {
+
+		if datakeranjang[i].namabarang == namabarang {
+
+			ketemu = true
+
+			for i < jumlahkeranjang-1 {
+
+				datakeranjang[i] =
+					datakeranjang[i+1]
+
+				i++
+			}
+
+			jumlahkeranjang--
+
+			fmt.Println("Barang dihapus dari keranjang")
+		}
+	}
+
+	if ketemu == false {
+
+		fmt.Println("Barang tidak ditemukan")
+	}
 }

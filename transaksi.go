@@ -46,8 +46,7 @@ func tambahtransaksi() {
 
 	fmt.Println("========== TRANSAKSI PEMBELIAN ==========")
 
-	fmt.Print("Nama Pembeli : ")
-	fmt.Scan(&trx.pembeli)
+	trx.pembeli = namapembeli
 
 	fmt.Print("Nama Barang : ")
 	fmt.Scan(&namabarang)
