@@ -177,6 +177,11 @@ func hapusbarang() {
 
 			jumlahbarang--
 
+			for i = 0; i < jumlahbarang; i++ {
+				 
+				databarang[i].id = i + 1 
+			}
+
 			fmt.Println("Barang berhasil dihapus")
 			savebarang()
 		}
