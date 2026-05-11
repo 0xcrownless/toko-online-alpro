@@ -9,7 +9,7 @@ import (
 
 const MAXADMIN = 50
 
-type admin struct {
+ struct {
 	usn  string
 	pw   string
 	role string
