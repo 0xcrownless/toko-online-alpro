@@ -120,6 +120,8 @@ func menutoko(role string) {
 			fmt.Println("11. Laporan Penjualan")
 			fmt.Println("12. Top Barang Terlaris")
 			fmt.Println("13. Export Excel")
+			fmt.Println("14. lihat saldo toko")
+			fmt.Println("15. tarik saldo")
 		}
 
 		fmt.Println("0. Keluar")
@@ -167,20 +169,25 @@ func menutoko(role string) {
 
 			hapustransaksi()
 
-		} else if pilihan == 11 &&
-			role == "superadmin" {
+		} else if pilihan == 11 && role == "superadmin" {
 
 			laporanpenjualan()
 
-		} else if pilihan == 12 &&
-			role == "superadmin" {
+		} else if pilihan == 12 && role == "superadmin" {
 
 			topbarangterlaris()
 
-		} else if pilihan == 13 &&
-			role == "superadmin" {
+		} else if pilihan == 13 && role == "superadmin" {
 
 			exportexcel()
+
+		} else if pilihan == 14 && role == "superadmin" {
+
+			lihatsaldo()
+
+		} else if pilihan == 15 && role == "superadmin" {
+
+			tariksaldo()
 
 		} else if pilihan == 0 {
 

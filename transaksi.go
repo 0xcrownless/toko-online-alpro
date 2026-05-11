@@ -18,6 +18,7 @@ type transaksi struct {
 	jumlah      int
 	total       int
 	status      string
+	metodepembayaran string
 }
 
 var datatransaksi [MAXTRANSAKSI]transaksi
@@ -29,6 +30,7 @@ func tambahtransaksi() {
 	var namabarang string
 	var i int
 	var ketemu bool
+	var pilihbayar int 
 
 	ketemu = false
 
@@ -52,6 +54,52 @@ func tambahtransaksi() {
 
 	fmt.Print("Jumlah Beli : ")
 	fmt.Scan(&trx.jumlah)
+
+	fmt.Println("========== PILIH PEMBAYARAN ==========")
+	fmt.Println("1. Dana")
+	fmt.Println("2. Ovo")
+	fmt.Println("3. Gopay")
+	fmt.Println("4. QRIS")
+	fmt.Println("5. Bank BCA")
+	fmt.Println("6. Bank BRI")
+	fmt.Println("7. Bank Mandiri")
+
+	fmt.Print("Pilih : ")
+	fmt.Scan(&pilihanbayar)
+
+	if pilihanbayar == 1 {
+
+		trx.metodepembayaran = "Dana"
+
+	} else if pilihanbayar == 2 {
+
+		trx.metodepembayaran = "Ovo"
+
+	} else if pilihanbayar == 3 {
+
+		trx.metodepembayaran = "Gopay"
+
+	} else if pilihanbayar == 4 {
+
+		trx.metodepembayaran = "QRIS"
+
+	} else if pilihanbayar == 5 {
+
+		trx.metodepembayaran = "Bank BCA"
+
+	} else if pilihanbayar == 6 {
+
+		trx.metodepembayaran = "Bank BRI"
+
+	} else if pilihanbayar == 7 {
+
+		trx.metodepembayaran = "Bank Mandiri"
+
+	} else {
+
+		fmt.Println("Metode pembayaran tidak tersedia")
+		return
+}
 
 	for i = 0; i < jumlahbarang; i++ {
 
@@ -110,6 +158,7 @@ func approvetransaksi() {
 
 			if datatransaksi[i].status == "approved" {
 
+				saldotoko += datatransaksi[i].total
 				fmt.Println("Transaksi sudah diapprove")
 
 			} else {
