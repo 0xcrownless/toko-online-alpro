@@ -1,6 +1,4 @@
-1|btc|crypto|1000000|12|38
-2|mbg|makanan|12000|100|0
-3|iphone17|elektronik|20000000|50|0
-4|kecap|bumbu|10|0|0
-5|lipstick|kecantikan|100|20|0
-6|panci|peralatan|75|27|0
+1|btc|0|1000000000|0|0
+2|pensil|atk|2000|20|8
+3|pulpen|atk|5000|33|2
+4|tas|perskl|1000000|10|2

@@ -10,6 +10,7 @@ func main() {
 	loadadmin()
 	loadbarang()
 	loadtransaksi()
+	loadpenarikan()
 
 	for {
 
@@ -29,7 +30,7 @@ func main() {
 
 			if role == "superadmin" {
 
-				suara("welcome, developer, Crownles")
+				suara("welcome, developer, Reval ")
 
 				for {
 
@@ -55,7 +56,6 @@ func main() {
 
 						hapusadmin()
 
-
 					} else if pilihan == 4 {
 
 						menutoko(role)
@@ -74,13 +74,10 @@ func main() {
 
 			} else if role == "admin" {
 
-				suara("welcome, " +adminlogin )
+				suara("welcome, " + adminlogin)
 
 				menutoko(role)
 
-			} else {
-
-				fmt.Println("Login gagal")
 			}
 
 		} else if pilihan == 2 {
@@ -125,6 +122,7 @@ func menutoko(role string) {
 			fmt.Println("12. Export Excel")
 			fmt.Println("13. statistik  toko")
 			fmt.Println("14. tarik saldo  ")
+			fmt.Println("15. Tutup Laporan Bulanan")
 		}
 
 		fmt.Println("0. Keluar")
@@ -158,7 +156,7 @@ func menutoko(role string) {
 
 		} else if pilihan == 7 {
 
-			tambahtransaksi()
+			tambahtransaksiadmin()
 
 		} else if pilihan == 8 {
 
@@ -187,6 +185,10 @@ func menutoko(role string) {
 		} else if pilihan == 14 && role == "superadmin" {
 
 			tariksaldo()
+
+		} else if pilihan == 15 && role == "superadmin" {
+
+			tutuplaporanbulanan()
 
 		} else if pilihan == 0 {
 

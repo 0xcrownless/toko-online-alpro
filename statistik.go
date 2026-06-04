@@ -3,29 +3,25 @@ package main
 import "fmt"
 
 func stastistiktoko() {
-
-	var i int
-
-	var omzet int
+	var totalpendapatan int
 	var totaltransaksi int
 	var totalbarang int
 
-	for i = 0; i < jumlahtransaksi; i++ {
-
+	for i := 0; i < jumlahtransaksi; i++ {
 		if datatransaksi[i].status == "approved" {
-
-			omzet += datatransaksi[i].total
-
+			totalpendapatan += datatransaksi[i].total
 			totaltransaksi++
-
 			totalbarang += datatransaksi[i].jumlah
 		}
 	}
 
-	fmt.Println("========== DASHBOARD TOKO ==========")
-
-	fmt.Println("Saldo Toko      : Rp", saldotoko)
-	fmt.Println("Omzet Toko      : Rp", omzet)
-	fmt.Println("Total Transaksi :", totaltransaksi)
-	fmt.Println("Barang Terjual  :", totalbarang)
+	fmt.Println("╔══════════════════════════════════════╗")
+	fmt.Println("║           STATISTIK TOKO             ║")
+	fmt.Println("╠══════════════════════════════════════╣")
+	fmt.Printf("║ %-20s : %-11d   ║\n", "Total Penjualan", totalpendapatan)
+	fmt.Printf("║ %-20s : %-11d   ║\n", "Total Penarikan", totalpenarikan)
+	fmt.Printf("║ %-20s : %-11d   ║\n", "Saldo Toko", saldotoko)
+	fmt.Printf("║ %-20s : %-11d   ║\n", "Total Transaksi", totaltransaksi)
+	fmt.Printf("║ %-20s : %-11d   ║\n", "Barang Terjual", totalbarang)
+	fmt.Println("╚══════════════════════════════════════╝")
 }

@@ -1,6 +1,6 @@
 module toko-online
 
-go 1.25.1
+go 1.24.0
 
 require (
 	github.com/richardlehane/mscfb v1.0.6 // indirect

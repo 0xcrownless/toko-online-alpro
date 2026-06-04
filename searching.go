@@ -22,28 +22,45 @@ func sequentialsearchnama(nama string) int {
 
 func caribarang() {
 
-	var nama string
-	var index int
+	var keyword string
+	var i int
+	var ketemu bool
+
+	ketemu = false
 
 	fmt.Println("========== CARI BARANG ==========")
 
-	fmt.Print("Masukkan nama barang : ")
-	fmt.Scan(&nama)
+	fmt.Print("Masukkan nama / kategori : ")
+	fmt.Scan(&keyword)
 
-	index = sequentialsearchnama(nama)
+	fmt.Println("╔══════════════════════════════════════════════════════════════════╗")
+	fmt.Println("║                        HASIL PENCARIAN                           ║")
+	fmt.Println("╠════╦════════════════════╦══════════════╦════════════╦════════════╣")
+	fmt.Println("║ ID ║ Nama Barang        ║ Kategori     ║ Harga      ║ Stok       ║")
+	fmt.Println("╠════╬════════════════════╬══════════════╬════════════╬════════════╣")
 
-	if index == -1 {
+	for i = 0; i < jumlahbarang; i++ {
+
+		if keyword == databarang[i].nama ||
+			keyword == databarang[i].kategori {
+
+			ketemu = true
+
+			fmt.Printf(
+				"║ %-2d ║ %-18s ║ %-12s ║ %-10d ║ %-10d ║\n",
+				databarang[i].id,
+				databarang[i].nama,
+				databarang[i].kategori,
+				databarang[i].harga,
+				databarang[i].stok,
+			)
+		}
+	}
+
+	fmt.Println("╚════╩════════════════════╩══════════════╩════════════╩════════════╝")
+
+	if ketemu == false {
 
 		fmt.Println("Barang tidak ditemukan")
-
-	} else {
-
-		fmt.Println("Barang ditemukan")
-		fmt.Println("ID        :", databarang[index].id)
-		fmt.Println("Nama      :", databarang[index].nama)
-		fmt.Println("Kategori  :", databarang[index].kategori)
-		fmt.Println("Harga     :", databarang[index].harga)
-		fmt.Println("Stok      :", databarang[index].stok)
-		fmt.Println("Terjual   :", databarang[index].terjual)
 	}
 }

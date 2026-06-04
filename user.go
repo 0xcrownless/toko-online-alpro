@@ -5,16 +5,14 @@ import "fmt"
 var namapembeli string
 
 func menuuser() {
-
 	var pilihan int
 
+	kosongkankeranjang()
 	suara("welcome, and happy shopping")
-
 	fmt.Print("nama pembeli : ")
 	fmt.Scan(&namapembeli)
 
 	for {
-
 		fmt.Println("========== MENU PEMBELI ==========")
 		fmt.Println("1. Lihat Barang")
 		fmt.Println("2. Cari Barang")
@@ -22,40 +20,27 @@ func menuuser() {
 		fmt.Println("4. Tambah ke Keranjang")
 		fmt.Println("5. Lihat Keranjang")
 		fmt.Println("0. Keluar")
-
 		fmt.Print("Pilih menu : ")
 		fmt.Scan(&pilihan)
 
-		if pilihan == 1 {
-
+		switch pilihan {
+		case 1:
 			tampilbarang()
-
-		} else if pilihan == 2 {
-
+		case 2:
 			caribarang()
-
-		} else if pilihan == 3 {
-
+		case 3:
 			tambahtransaksi()
-
-		} else if pilihan == 4 {
-
+		case 4:
 			tambahkeranjang()
-
-		} else if pilihan == 5 {
-
+		case 5:
 			tampilkeranjang()
-			
-		} else if pilihan == 0 {
-
+		case 0:
+			kosongkankeranjang()
 			fmt.Println("Keluar dari menu pembeli")
-			break
-
-		} else {
-
+			return
+		default:
 			fmt.Println("Menu tidak tersedia")
 		}
-
 		fmt.Println()
 	}
 }

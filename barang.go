@@ -1,259 +1,258 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
-	"bufio"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 const MAXBARANG = 999
 
 type barang struct {
-	id        int
-	nama      string
-	kategori  string
-	harga     int
-	stok      int
-	terjual   int
+	id       int
+	nama     string
+	kategori string
+	harga    int
+	stok     int
+	terjual  int
 }
 
 var databarang [MAXBARANG]barang
 var jumlahbarang int
 
 func tambahbarang() {
-
-	var barang barang
+	var item barang
 
 	fmt.Println("========== TAMBAH BARANG ==========")
+	if jumlahbarang >= MAXBARANG {
+		fmt.Println("Data barang sudah penuh")
+		return
+	}
 
-	barang.id = jumlahbarang + 1
-	
+	item.id = idbarang()
 	fmt.Print("Nama Barang : ")
-	fmt.Scan(&barang.nama)
-
+	fmt.Scan(&item.nama)
 	fmt.Print("Kategori : ")
-	fmt.Scan(&barang.kategori)
-
+	fmt.Scan(&item.kategori)
 	fmt.Print("Harga : ")
-	fmt.Scan(&barang.harga)
-
+	fmt.Scan(&item.harga)
 	fmt.Print("Stok : ")
-	fmt.Scan(&barang.stok)
+	fmt.Scan(&item.stok)
 
-	barang.terjual = 0
+	if item.nama == "" || item.kategori == "" {
+		fmt.Println("Nama dan kategori tidak boleh kosong")
+		return
+	}
+	if cariindexbarang(0, item.nama) != -1 {
+		fmt.Println("Nama barang sudah digunakan")
+		return
+	}
+	if item.harga <= 0 {
+		fmt.Println("Harga harus lebih dari 0")
+		return
+	}
+	if item.stok < 0 {
+		fmt.Println("Stok tidak boleh negatif")
+		return
+	}
 
-	databarang[jumlahbarang] = barang
+	databarang[jumlahbarang] = item
 	jumlahbarang++
-
-	fmt.Println("Barang berhasil ditambahkan")
 	savebarang()
+	fmt.Println("Barang berhasil ditambahkan")
 }
 
 func tampilbarang() {
+	urutbarangidasc()
+	tampilbarangsaatini()
+}
 
-	var i int
+// tampilbarangsaatini menampilkan urutan array saat ini agar hasil sorting tidak diurutkan ulang berdasarkan ID.
+func tampilbarangsaatini() {
+	fmt.Println("==========================================================================")
+	fmt.Println("                           DATA BARANG TOKO")
+	fmt.Println("==========================================================================")
+	fmt.Println("ID   Nama Barang          Kategori      Harga       Stok        Terjual")
+	fmt.Println("--------------------------------------------------------------------------")
+	for i := 0; i < jumlahbarang; i++ {
+		fmt.Printf("%-4d %-20s %-13s %-11d %-11d %-8d\n",
+			databarang[i].id,
+			databarang[i].nama,
+			databarang[i].kategori,
+			databarang[i].harga,
+			databarang[i].stok,
+			databarang[i].terjual,
+		)
+	}
+	fmt.Println("==========================================================================")
+}
 
-	fmt.Println("========== DATA BARANG ==========")
-
-	if jumlahbarang == 0 {
-
-		fmt.Println("Data barang kosong")
-
-	} else {
-
-		for i = 0; i < jumlahbarang; i++ {
-
-			fmt.Println("ID        :", databarang[i].id)
-			fmt.Println("Nama      :", databarang[i].nama)
-			fmt.Println("Kategori  :", databarang[i].kategori)
-			fmt.Println("Harga     :", databarang[i].harga)
-			fmt.Println("Stok      :", databarang[i].stok)
-			fmt.Println("Terjual   :", databarang[i].terjual)
-			fmt.Println("-----------------------------")
+func urutbarangidasc() {
+	for i := 0; i < jumlahbarang-1; i++ {
+		for j := i + 1; j < jumlahbarang; j++ {
+			if databarang[j].id < databarang[i].id {
+				databarang[i], databarang[j] = databarang[j], databarang[i]
+			}
 		}
 	}
 }
 
 func editbarang() {
-
 	var id int
-	var i int
-	var pilihan int
-	var ketemu bool
-
-	ketemu = false
 
 	fmt.Println("========== EDIT BARANG ==========")
-
 	fmt.Print("Masukkan ID Barang : ")
 	fmt.Scan(&id)
 
-	for i = 0; i < jumlahbarang; i++ {
+	for i := 0; i < jumlahbarang; i++ {
+		if databarang[i].id != id {
+			continue
+		}
+		for {
+			var pilihan int
+			fmt.Println("===== PILIH DATA YANG DIUBAH =====")
+			fmt.Println("1. Nama")
+			fmt.Println("2. Kategori")
+			fmt.Println("3. Harga")
+			fmt.Println("4. Stok")
+			fmt.Println("0. Selesai")
+			fmt.Print("Pilih : ")
+			fmt.Scan(&pilihan)
 
-		if databarang[i].id == id {
-
-			ketemu = true
-
-			for {
-
-				fmt.Println("===== PILIH DATA YANG DIUBAH =====")
-				fmt.Println("1. Nama")
-				fmt.Println("2. Kategori")
-				fmt.Println("3. Harga")
-				fmt.Println("4. Stok")
-				fmt.Println("0. Selesai")
-
-				fmt.Print("Pilih : ")
-				fmt.Scan(&pilihan)
-
-				if pilihan == 1 {
-
-					fmt.Print("Nama Baru : ")
-					fmt.Scan(&databarang[i].nama)
-
-				} else if pilihan == 2 {
-
-					fmt.Print("Kategori Baru : ")
-					fmt.Scan(&databarang[i].kategori)
-
-				} else if pilihan == 3 {
-
-					fmt.Print("Harga Baru : ")
-					fmt.Scan(&databarang[i].harga)
-
-				} else if pilihan == 4 {
-
-					fmt.Print("Stok Baru : ")
-					fmt.Scan(&databarang[i].stok)
-
-				} else if pilihan == 0 {
-
-					fmt.Println("Edit selesai")
-					savebarang()
-					break
-
+			switch pilihan {
+			case 1:
+				var nama string
+				fmt.Print("Nama Baru : ")
+				fmt.Scan(&nama)
+				index := cariindexbarang(0, nama)
+				if nama == "" {
+					fmt.Println("Nama tidak boleh kosong")
+				} else if index != -1 && index != i {
+					fmt.Println("Nama barang sudah digunakan")
+				} else if nama != databarang[i].nama && barangadaditransaksi(databarang[i].id, databarang[i].nama) {
+					fmt.Println("Nama barang yang sudah tercatat dalam transaksi tidak dapat diubah")
 				} else {
-
-					fmt.Println("Menu tidak tersedia")
+					databarang[i].nama = nama
 				}
-
-				fmt.Println()
+			case 2:
+				fmt.Print("Kategori Baru : ")
+				fmt.Scan(&databarang[i].kategori)
+			case 3:
+				var harga int
+				fmt.Print("Harga Baru : ")
+				fmt.Scan(&harga)
+				if harga <= 0 {
+					fmt.Println("Harga harus lebih dari 0")
+				} else {
+					databarang[i].harga = harga
+				}
+			case 4:
+				var stok int
+				fmt.Print("Stok Baru : ")
+				fmt.Scan(&stok)
+				if stok < 0 {
+					fmt.Println("Stok tidak boleh negatif")
+				} else {
+					databarang[i].stok = stok
+				}
+			case 0:
+				savebarang()
+				fmt.Println("Edit selesai")
+				return
+			default:
+				fmt.Println("Menu tidak tersedia")
 			}
+			fmt.Println()
 		}
 	}
-
-	if ketemu == false {
-
-		fmt.Println("Barang tidak ditemukan")
-	}
+	fmt.Println("Barang tidak ditemukan")
 }
 
 func hapusbarang() {
-
 	var id int
-	var i int
-	var j int
-	var ketemu bool
-
-	ketemu = false
 
 	fmt.Println("========== HAPUS BARANG ==========")
-
 	fmt.Print("Masukkan ID Barang : ")
 	fmt.Scan(&id)
 
-	for i = 0; i < jumlahbarang; i++ {
-
-		if databarang[i].id == id {
-
-			ketemu = true
-
-			for j = i; j < jumlahbarang-1; j++ {    
-
-				databarang[j] = databarang[j+1]
-			}
-
-			jumlahbarang--
-
-			for i = 0; i < jumlahbarang; i++ {
-				 
-				databarang[i].id = i + 1 
-			}
-
-			fmt.Println("Barang berhasil dihapus")
-			savebarang()
+	for i := 0; i < jumlahbarang; i++ {
+		if databarang[i].id != id {
+			continue
 		}
+		if barangadaditransaksi(databarang[i].id, databarang[i].nama) {
+			fmt.Println("Barang masih tercatat dalam transaksi dan tidak dapat dihapus")
+			return
+		}
+		for j := i; j < jumlahbarang-1; j++ {
+			databarang[j] = databarang[j+1]
+		}
+		jumlahbarang--
+		databarang[jumlahbarang] = barang{}
+		savebarang()
+		fmt.Println("Barang berhasil dihapus")
+		return
 	}
-
-	if ketemu == false {
-
-		fmt.Println("Barang tidak ditemukan")
-	}
+	fmt.Println("Barang tidak ditemukan")
 }
 
 func savebarang() {
-
-	var file *os.File
-	var data string
-	var i int
-
-	file, _ = os.Create("barang.txt")
-
+	file, err := os.Create("barang.txt")
+	if err != nil {
+		fmt.Println("Gagal menyimpan data barang")
+		return
+	}
 	defer file.Close()
 
-	for i = 0; i < jumlahbarang; i++ {
-
-		data =
-			strconv.Itoa(databarang[i].id) + "|" +
-				databarang[i].nama + "|" +
-				databarang[i].kategori + "|" +
-				strconv.Itoa(databarang[i].harga) + "|" +
-				strconv.Itoa(databarang[i].stok) + "|" +
-				strconv.Itoa(databarang[i].terjual) + "\n"
-
-		file.WriteString(data)
+	for i := 0; i < jumlahbarang; i++ {
+		data := strconv.Itoa(databarang[i].id) + "|" +
+			databarang[i].nama + "|" +
+			databarang[i].kategori + "|" +
+			strconv.Itoa(databarang[i].harga) + "|" +
+			strconv.Itoa(databarang[i].stok) + "|" +
+			strconv.Itoa(databarang[i].terjual) + "\n"
+		if _, err := file.WriteString(data); err != nil {
+			fmt.Println("Gagal menyimpan data barang")
+			return
+		}
 	}
 }
 
+func idbarang() int {
+	idterbesar := 0
+	for i := 0; i < jumlahbarang; i++ {
+		if databarang[i].id > idterbesar {
+			idterbesar = databarang[i].id
+		}
+	}
+	return idterbesar + 1
+}
+
 func loadbarang() {
-
-	var file *os.File
-	var scanner *bufio.Scanner
-	var line string
-	var data []string
-	var barang barang
-
-	file, _ = os.Open("barang.txt")
-
+	file, err := os.Open("barang.txt")
+	if err != nil {
+		return
+	}
 	defer file.Close()
 
-	scanner = bufio.NewScanner(file)
-
+	jumlahbarang = 0
+	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
+		data := strings.Split(scanner.Text(), "|")
+		if len(data) < 6 || jumlahbarang >= MAXBARANG {
+			continue
+		}
 
-		line = scanner.Text()
+		id, errID := strconv.Atoi(data[0])
+		harga, errHarga := strconv.Atoi(data[3])
+		stok, errStok := strconv.Atoi(data[4])
+		terjual, errTerjual := strconv.Atoi(data[5])
+		if errID != nil || errHarga != nil || errStok != nil || errTerjual != nil || id <= 0 || harga < 0 || stok < 0 || terjual < 0 {
+			continue
+		}
 
-		data = strings.Split(line, "|")
-
-		barang.id, _ =
-			strconv.Atoi(data[0])
-
-		barang.nama = data[1]
-
-		barang.kategori = data[2]
-
-		barang.harga, _ =
-			strconv.Atoi(data[3])
-
-		barang.stok, _ =
-			strconv.Atoi(data[4])
-
-		barang.terjual, _ =
-			strconv.Atoi(data[5])
-
-		databarang[jumlahbarang] = barang
+		databarang[jumlahbarang] = barang{id: id, nama: data[1], kategori: data[2], harga: harga, stok: stok, terjual: terjual}
 		jumlahbarang++
 	}
 }

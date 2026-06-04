@@ -1,59 +1,61 @@
 package main
 
-import  (
+import (
+	"bufio"
 	"fmt"
 	"os"
-	"bufio"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 const MAXTRANSAKSI = 999
 
 type transaksi struct {
-	idtransaksi int
-	pembeli     string
-	idbarang    int
-	namabarang  string
-	jumlah      int
-	total       int
-	status      string
+	idtransaksi      int
+	pembeli          string
+	idbarang         int
+	namabarang       string
+	jumlah           int
+	total            int
+	status           string
 	metodepembayaran string
 }
 
 var datatransaksi [MAXTRANSAKSI]transaksi
 var jumlahtransaksi int
 
-func tambahtransaksi() {
-
-	var trx transaksi
-	var namabarang string
-	var i int
-	var ketemu bool
-	var pilihanbayar int 
-
-	ketemu = false
-
-	if jumlahtransaksi == 0 {
-
-		trx.idtransaksi = 1
-
-	} else {
-
-		trx.idtransaksi =
-			datatransaksi[jumlahtransaksi-1].idtransaksi + 1
+func idtransaksibaru() int {
+	idterbesar := 0
+	for i := 0; i < jumlahtransaksi; i++ {
+		if datatransaksi[i].idtransaksi > idterbesar {
+			idterbesar = datatransaksi[i].idtransaksi
+		}
 	}
+	return idterbesar + 1
+}
 
-	fmt.Println("========== TRANSAKSI PEMBELIAN ==========")
+func pilihmetodepembayaran(pilihan int) (string, bool) {
+	switch pilihan {
+	case 1:
+		return "Dana", true
+	case 2:
+		return "Ovo", true
+	case 3:
+		return "Gopay", true
+	case 4:
+		return "QRIS", true
+	case 5:
+		return "Bank BCA", true
+	case 6:
+		return "Bank BRI", true
+	case 7:
+		return "Bank Mandiri", true
+	default:
+		return "", false
+	}
+}
 
-	trx.pembeli = namapembeli
-
-	fmt.Print("Nama Barang : ")
-	fmt.Scan(&namabarang)
-
-	fmt.Print("Jumlah Beli : ")
-	fmt.Scan(&trx.jumlah)
-
+func tampilpilihanpembayaran() {
 	fmt.Println("========== PILIH PEMBAYARAN ==========")
 	fmt.Println("1. Dana")
 	fmt.Println("2. Ovo")
@@ -62,254 +64,244 @@ func tambahtransaksi() {
 	fmt.Println("5. Bank BCA")
 	fmt.Println("6. Bank BRI")
 	fmt.Println("7. Bank Mandiri")
-
-	fmt.Print("Pilih : ")
-	fmt.Scan(&pilihanbayar)
-
-	if pilihanbayar == 1 {
-
-		trx.metodepembayaran = "Dana"
-
-	} else if pilihanbayar == 2 {
-
-		trx.metodepembayaran = "Ovo"
-
-	} else if pilihanbayar == 3 {
-
-		trx.metodepembayaran = "Gopay"
-
-	} else if pilihanbayar == 4 {
-
-		trx.metodepembayaran = "QRIS"
-
-	} else if pilihanbayar == 5 {
-
-		trx.metodepembayaran = "Bank BCA"
-
-	} else if pilihanbayar == 6 {
-
-		trx.metodepembayaran = "Bank BRI"
-
-	} else if pilihanbayar == 7 {
-
-		trx.metodepembayaran = "Bank Mandiri"
-
-	} else {
-
-		fmt.Println("Metode pembayaran tidak tersedia")
-		return
 }
 
-	for i = 0; i < jumlahbarang; i++ {
+func tambahtransaksi() {
+	buattransaksi(namapembeli)
+}
 
-		if databarang[i].nama == namabarang {
+func tambahtransaksiadmin() {
+	var pembeli string
+	fmt.Print("Nama Pembeli : ")
+	fmt.Scan(&pembeli)
+	if pembeli == "" {
+		fmt.Println("Nama pembeli tidak boleh kosong")
+		return
+	}
+	buattransaksi(pembeli)
+}
 
-			ketemu = true
+func buattransaksi(pembeli string) {
+	var trx transaksi
+	var namabarang string
+	var pilihanbayar int
 
-			if trx.jumlah > databarang[i].stok {
-
-				fmt.Println("Stok tidak cukup")
-				return
-			}
-
-			trx.idbarang = databarang[i].id
-			trx.namabarang = databarang[i].nama
-
-			trx.total =
-				trx.jumlah * databarang[i].harga
-
-			trx.status = "pending"
-
-			datatransaksi[jumlahtransaksi] = trx
-			jumlahtransaksi++
-
-			savetransaksi()
-
-			fmt.Println("Transaksi berhasil ditambahkan")
-		}
+	if jumlahtransaksi >= MAXTRANSAKSI {
+		fmt.Println("Data transaksi sudah penuh")
+		return
 	}
 
-	if ketemu == false {
+	trx.idtransaksi = idtransaksibaru()
+	trx.pembeli = pembeli
 
+	fmt.Println("========== TRANSAKSI PEMBELIAN ==========")
+	fmt.Print("Nama Barang : ")
+	fmt.Scan(&namabarang)
+	fmt.Print("Jumlah Beli : ")
+	fmt.Scan(&trx.jumlah)
+
+	if trx.jumlah <= 0 {
+		fmt.Println("Jumlah beli harus lebih dari 0")
+		return
+	}
+
+	index := cariindexbarang(0, namabarang)
+	if index == -1 {
 		fmt.Println("Barang tidak ditemukan")
+		return
 	}
+	if trx.jumlah > databarang[index].stok {
+		fmt.Println("Stok tidak cukup")
+		return
+	}
+
+	tampilpilihanpembayaran()
+	fmt.Print("Pilih : ")
+	fmt.Scan(&pilihanbayar)
+	metode, valid := pilihmetodepembayaran(pilihanbayar)
+	if !valid {
+		fmt.Println("Metode pembayaran tidak tersedia")
+		return
+	}
+
+	trx.idbarang = databarang[index].id
+	trx.namabarang = databarang[index].nama
+	trx.total = trx.jumlah * databarang[index].harga
+	trx.status = "pending"
+	trx.metodepembayaran = metode
+
+	datatransaksi[jumlahtransaksi] = trx
+	jumlahtransaksi++
+	savetransaksi()
+	fmt.Println("Transaksi berhasil ditambahkan")
 }
 
 func approvetransaksi() {
-
 	var idtrx int
-	var i int
-	var j int
-	var ketemu bool
-
-	ketemu = false
 
 	fmt.Println("========== APPROVE TRANSAKSI ==========")
-
 	fmt.Print("Masukkan ID Transaksi : ")
 	fmt.Scan(&idtrx)
 
-	for i = 0; i < jumlahtransaksi; i++ {
-
-		if datatransaksi[i].idtransaksi == idtrx {
-
-			ketemu = true
-
-			if datatransaksi[i].status == "approved" {
-
-				saldotoko += datatransaksi[i].total
-				fmt.Println("Transaksi sudah diapprove")
-
-			} else {
-
-				datatransaksi[i].status = "approved"
-
-				for j = 0; j < jumlahbarang; j++ {
-
-					if databarang[j].id == datatransaksi[i].idbarang {
-
-						databarang[j].stok =
-							databarang[j].stok - datatransaksi[i].jumlah
-
-						databarang[j].terjual =
-							databarang[j].terjual + datatransaksi[i].jumlah
-					}
-				}
-
-				fmt.Println("Transaksi berhasil diapprove")
-				savetransaksi()
-				savebarang()
-			}
+	for i := 0; i < jumlahtransaksi; i++ {
+		if datatransaksi[i].idtransaksi != idtrx {
+			continue
 		}
-	}
+		if datatransaksi[i].status == "approved" {
+			fmt.Println("Transaksi sudah diapprove")
+			return
+		}
+		if datatransaksi[i].status != "pending" {
+			fmt.Println("Status transaksi tidak valid")
+			return
+		}
+		if datatransaksi[i].jumlah <= 0 {
+			datatransaksi[i].jumlah = hitungjumlahbarangtransaksi(datatransaksi[i].namabarang)
+		}
+		if !prosesstoktransaksi(datatransaksi[i], false) {
+			return
+		}
+		if !prosesstoktransaksi(datatransaksi[i], true) {
+			return
+		}
 
-	if ketemu == false {
-
-		fmt.Println("Transaksi tidak ditemukan")
+		datatransaksi[i].status = "approved"
+		saldotoko += datatransaksi[i].total
+		savetransaksi()
+		savebarang()
+		fmt.Println("Transaksi berhasil diapprove")
+		return
 	}
+	fmt.Println("Transaksi tidak ditemukan")
 }
 
 func tampiltransaksi() {
-
-	var i int
-
-	fmt.Println("========== DATA TRANSAKSI ==========")
-
-	for i = 0; i < jumlahtransaksi; i++ {
-
-		fmt.Println("ID Transaksi :", datatransaksi[i].idtransaksi)
-		fmt.Println("Pembeli      :", datatransaksi[i].pembeli)
-		fmt.Println("Barang        :", datatransaksi[i].namabarang)
-		fmt.Println("Jumlah        :", datatransaksi[i].jumlah)
-		fmt.Println("Total         :", datatransaksi[i].total)
-		fmt.Println("Status        :", datatransaksi[i].status)
-		fmt.Println("-------------------------------")
+	fmt.Println("╔═══════════════════════════════════════════════════════════════════════════════════════════╗")
+	fmt.Println("║                                   DATA TRANSAKSI                                          ║")
+	fmt.Println("╠════╦════════════╦════════════════════╦════════════╦════════════╦══════════════════════════╣")
+	fmt.Println("║ ID ║ Pembeli    ║ Barang             ║ Total      ║ Status     ║ Pembayaran               ║")
+	fmt.Println("╠════╬════════════╬════════════════════╬════════════╬════════════╬══════════════════════════╣")
+	for i := 0; i < jumlahtransaksi; i++ {
+		fmt.Printf("║ %-2d ║ %-10s ║ %-18s ║ %-10d ║ %-10s ║ %-24s ║\n",
+			datatransaksi[i].idtransaksi,
+			datatransaksi[i].pembeli,
+			datatransaksi[i].namabarang,
+			datatransaksi[i].total,
+			datatransaksi[i].status,
+			datatransaksi[i].metodepembayaran,
+		)
 	}
+	fmt.Println("╚════╩════════════╩════════════════════╩════════════╩══════════════════════════╝")
 }
 
 func savetransaksi() {
-
-	var file *os.File
-	var data string
-	var i int
-
-	file, _ = os.Create("transaksi.txt")
-
-	defer file.Close()
-
-	for i = 0; i < jumlahtransaksi; i++ {
-
-		data =
-			strconv.Itoa(datatransaksi[i].idtransaksi) + "|" +
-				datatransaksi[i].pembeli + "|" +
-				strconv.Itoa(datatransaksi[i].idbarang) + "|" +
-				datatransaksi[i].namabarang + "|" +
-				strconv.Itoa(datatransaksi[i].jumlah) + "|" +
-				strconv.Itoa(datatransaksi[i].total) + "|" +
-				datatransaksi[i].status + "\n"
-
-		file.WriteString(data)
+	if err := simpandaftartransaksi("transaksi.txt", daftartransaksiaktif()); err != nil {
+		fmt.Println("Gagal menyimpan transaksi")
 	}
 }
 
-func loadtransaksi() {
+func daftartransaksiaktif() []transaksi {
+	daftar := make([]transaksi, jumlahtransaksi)
+	for i := 0; i < jumlahtransaksi; i++ {
+		daftar[i] = datatransaksi[i]
+	}
+	return daftar
+}
 
-	var file *os.File
-	var scanner *bufio.Scanner
-	var line string
-	var data []string
-	var trx transaksi
+func formatbaristransaksi(trx transaksi) string {
+	return strconv.Itoa(trx.idtransaksi) + "|" +
+		trx.pembeli + "|" +
+		strconv.Itoa(trx.idbarang) + "|" +
+		trx.namabarang + "|" +
+		strconv.Itoa(trx.jumlah) + "|" +
+		strconv.Itoa(trx.total) + "|" +
+		trx.status + "|" +
+		trx.metodepembayaran + "\n"
+}
 
-	file, _ = os.Open("transaksi.txt")
-
+func simpandaftartransaksi(namafile string, daftar []transaksi) error {
+	file, err := os.Create(namafile)
+	if err != nil {
+		return err
+	}
 	defer file.Close()
 
-	scanner = bufio.NewScanner(file)
+	for i := 0; i < len(daftar); i++ {
+		if _, err := file.WriteString(formatbaristransaksi(daftar[i])); err != nil {
+			return err
+		}
+	}
+	return nil
+}
 
+func loadtransaksi() {
+	file, err := os.Open("transaksi.txt")
+	if err != nil {
+		return
+	}
+	defer file.Close()
+
+	jumlahtransaksi = 0
+	saldotoko = loadpendapatanarsipbulanan()
+	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
+		data := strings.Split(scanner.Text(), "|")
+		if len(data) < 8 || jumlahtransaksi >= MAXTRANSAKSI {
+			continue
+		}
 
-		line = scanner.Text()
+		id, errID := strconv.Atoi(data[0])
+		idBarang, errBarang := strconv.Atoi(data[2])
+		jumlah, errJumlah := strconv.Atoi(data[4])
+		total, errTotal := strconv.Atoi(data[5])
+		if errID != nil || errBarang != nil || errJumlah != nil || errTotal != nil || id <= 0 || jumlah <= 0 || total < 0 {
+			continue
+		}
+		if data[6] != "pending" && data[6] != "approved" {
+			continue
+		}
 
-		data = strings.Split(line, "|")
-
-		trx.idtransaksi, _ =
-			strconv.Atoi(data[0])
-
-		trx.pembeli = data[1]
-
-		trx.idbarang, _ =
-			strconv.Atoi(data[2])
-
-		trx.namabarang = data[3]
-
-		trx.jumlah, _ =
-			strconv.Atoi(data[4])
-
-		trx.total, _ =
-			strconv.Atoi(data[5])
-
-		trx.status = data[6]
-
+		trx := transaksi{
+			idtransaksi:      id,
+			pembeli:          data[1],
+			idbarang:         idBarang,
+			namabarang:       data[3],
+			jumlah:           jumlah,
+			total:            total,
+			status:           data[6],
+			metodepembayaran: data[7],
+		}
 		datatransaksi[jumlahtransaksi] = trx
 		jumlahtransaksi++
+		if trx.status == "approved" {
+			saldotoko += trx.total
+		}
 	}
 }
 
 func hapustransaksi() {
-
 	var id int
-	var i int
-	var j int
-	var ketemu bool
-
-	ketemu = false
 
 	fmt.Println("========== HAPUS TRANSAKSI ==========")
-
 	fmt.Print("Masukkan ID transaksi : ")
 	fmt.Scan(&id)
 
-	for i = 0; i < jumlahtransaksi; i++ {
-
-		if datatransaksi[i].idtransaksi == id {
-
-			ketemu = true
-
-			for j = i; j < jumlahtransaksi-1; j++ {
-
-				datatransaksi[j] = datatransaksi[j+1]
-			}
-
-			jumlahtransaksi--
-
-			savetransaksi()
-
-			fmt.Println("Transaksi berhasil dihapus")
+	for i := 0; i < jumlahtransaksi; i++ {
+		if datatransaksi[i].idtransaksi != id {
+			continue
 		}
+		if datatransaksi[i].status == "approved" {
+			fmt.Println("Transaksi approved tidak dapat dihapus")
+			return
+		}
+		for j := i; j < jumlahtransaksi-1; j++ {
+			datatransaksi[j] = datatransaksi[j+1]
+		}
+		jumlahtransaksi--
+		datatransaksi[jumlahtransaksi] = transaksi{}
+		savetransaksi()
+		fmt.Println("Transaksi berhasil dihapus")
+		return
 	}
-
-	if ketemu == false {
-
-		fmt.Println("Transaksi tidak ditemukan")
-	}
+	fmt.Println("Transaksi tidak ditemukan")
 }

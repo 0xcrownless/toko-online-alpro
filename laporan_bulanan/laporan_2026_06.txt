@@ -1,0 +1,18 @@
+LAPORAN BULANAN TOKO
+=====================
+Bulan dan Tahun: 06/2026
+Waktu Ditutup: 2026-06-02 22:49:48
+Jumlah Transaksi Approved: 4
+Jumlah Transaksi Pending: 0
+Total Penjualan Approved: 2012000
+Total Item Terjual: 8
+
+TRANSAKSI APPROVED
+ID|Pembeli|ID Barang|Nama Barang|Jumlah|Total|Status|Metode Pembayaran
+1||2|pensil|3|6000|approved|Gopay
+2|rr|2|pensil|2|4000|approved|Ovo
+3|rr|2|pensil|1|2000|approved|Dana
+4|rvl|4|tas|2|2000000|approved|QRIS
+
+TRANSAKSI PENDING
+ID|Pembeli|ID Barang|Nama Barang|Jumlah|Total|Status|Metode Pembayaran
